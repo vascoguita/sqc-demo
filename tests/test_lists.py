@@ -29,3 +29,19 @@ import humanize
 )
 def test_natural_list(test_args: Iterable[Any], expected: str) -> None:
     assert humanize.natural_list(*test_args) == expected
+
+
+@pytest.mark.parametrize(
+    "items, conjunction, expected",
+    [
+        (["one", "two", "three"], "or", "one, two or three"),
+        (["one", "two"], "or", "one or two"),
+        (["one"], "or", "one"),
+        ([], "or", ""),
+        (["one", "two", "three"], "and", "one, two and three"),
+    ],
+)
+def test_natural_list_conjunction(
+    items: list[str], conjunction: str, expected: str
+) -> None:
+    assert humanize.natural_list(items, conjunction=conjunction) == expected
